@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { TaskService } from './services/task.service';
+import { bootstrapApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [FormsModule, TaskListComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'todo-app';
+  newTask = '';
+
+  constructor(private taskService: TaskService) {}
+
+  addTask() {
+    if (this.newTask.trim()) {
+      this.taskService.addTask(this.newTask);
+      this.newTask = '';
+    }
+  }
 }
